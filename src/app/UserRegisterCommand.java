@@ -3,7 +3,7 @@ package app;
 import domain.model.UserName;
 
 public class UserRegisterCommand {
-    private UserName userName;
+    private final UserName userName;
 
     public UserRegisterCommand(UserName userName) {
         this.userName = userName;
