@@ -1,8 +1,9 @@
-package domain.service;
+package app;
 
 import domain.model.IUserRepository;
 import domain.model.User;
 import domain.model.UserName;
+import domain.service.UserService;
 
 public class UserRegisterService {
     private final IUserRepository userRepository;
@@ -13,14 +14,14 @@ public class UserRegisterService {
         this.userService = userService;
     }
 
-    public void handle(UserRegisterCommand command) {
-        UserName userName = new UserName(command.getName());
+    public void register(UserRegisterCommand command) {
+        UserName userName = new UserName(command.getUserName().getValue());
 
         User user = new User(userName);
 
         // 중복된 사용자인지 확인
-        if (userService.exists(user.getUserName())) {
-            throw new CanNotRegisterUserException(user, "이미 등록된 사용자입니다.");
+        if (userService.exists(user)) {
+            throw new IllegalArgumentException("cannot register user due to duplication");
         }
 
         userRepository.save(user);
